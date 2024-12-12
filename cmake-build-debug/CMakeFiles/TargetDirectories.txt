@@ -1,0 +1,3 @@
+C:/Users/yurys/y2024-2025/ParallelAlgo/secondTask/cmake-build-debug/CMakeFiles/secondTask.dir
+C:/Users/yurys/y2024-2025/ParallelAlgo/secondTask/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/yurys/y2024-2025/ParallelAlgo/secondTask/cmake-build-debug/CMakeFiles/rebuild_cache.dir
