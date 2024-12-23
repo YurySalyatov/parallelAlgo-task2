@@ -1,37 +1,30 @@
+Юрий Салятов,
+[23.12.2024 17:34]
+
 #include <vector>
 #include <atomic>
 #include <tbb/tbb.h>
 #include <queue>
 // #include <iostream>
 
-constexpr int CHUNK_SIZE = 512;
+constexpr int PFOR_CHUNK_SIZE = 5 * 1e3;
+constexpr int PSCAN_CHUNK_SIZE = 1e3;
 constexpr int MAX_SIZE = 1e9;
 
 void sequentialBfs(const std::vector<std::vector<int> > &graph, std::vector<int> &dist, const int start = 0) {
     std::queue<int> front;
     std::vector<bool> visited(graph.size(), false);
-    front.
-            push(start);
+    front.push(start);
     visited[start] = true;
     dist[start] = 0;
-    while (!front.
-
-            empty()
-
-            ) {
+    while (!front.empty()) {
         int v = front.front();
-        front.
-
-                pop();
-
-        visited[v] = true;
-        for (
-            auto u
-                : graph[v]) {
+        front.pop();
+        for (auto u: graph[v]) {
             if (!visited[u]) {
                 dist[u] = dist[v] + 1;
-                front.
-                        push(u);
+                visited[u] = true;
+                front.push(u);
             }
         }
     }
@@ -39,7 +32,7 @@ void sequentialBfs(const std::vector<std::vector<int> > &graph, std::vector<int>
 
 long long pscan(const std::vector<int> &vec, std::vector<long> &res, const int sz) {
     tbb::parallel_scan(
-            tbb::blocked_range<size_t>(0, sz, CHUNK_SIZE),
+            tbb::blocked_range<size_t>(0, sz, PSCAN_CHUNK_SIZE),
             0,
             [&](const tbb::blocked_range <size_t> &range, const long sum, const bool is_final_sum) {
                 long tmp = sum;
@@ -57,7 +50,7 @@ long long pscan(const std::vector<int> &vec, std::vector<long> &res, const int s
     );
     const long ans = res[sz - 1];
     tbb::parallel_for(
-            tbb::blocked_range<size_t>(0, sz, CHUNK_SIZE),
+            tbb::blocked_range<size_t>(0, sz, PFOR_CHUNK_SIZE),
             [&](const tbb::blocked_range <size_t> &range) {
                 for (size_t i = range.begin(); i < range.end(); i++) {
                     res[i] -= vec[i];
@@ -70,7 +63,7 @@ long long pscan(const std::vector<int> &vec, std::vector<long> &res, const int s
 int pfilter(const std::vector<int> &vec, std::vector<int> &med, std::vector<long> &res_scan, const int sz,
             std::vector<int> &res) {
     tbb::parallel_for(
-            tbb::blocked_range<size_t>(0, sz, CHUNK_SIZE),
+            tbb::blocked_range<size_t>(0, sz, PFOR_CHUNK_SIZE),
             [&](const tbb::blocked_range <size_t> &range) {
                 for (size_t i = range.begin(); i < range.end(); i++) {
                     med[i] = vec[i] >= 0 ? 1 : 0;
@@ -78,11 +71,15 @@ int pfilter(const std::vector<int> &vec, std::vector<int> &med, std::vector<long
             });
     const auto scan_sz = pscan(med, res_scan, sz);
     tbb::parallel_for(
-            tbb::blocked_range<size_t>(0, sz, CHUNK_SIZE),
+            tbb::blocked_range<size_t>(0, sz, PFOR_CHUNK_SIZE),
             [&](const tbb::blocked_range <size_t> &range) {
                 for (size_t i = range.begin(); i < range.end(); ++i) {
                     if ((i < sz - 1 && res_scan[i] < res_scan[i + 1])
-                        || (i == sz - 1 && res_scan[i] < scan_sz)) {
+
+                        Юрий
+                    Салятов, [23.12.2024
+                    17:34]
+                    (i == sz - 1 && res_scan[i] < scan_sz)) {
                         res[res_scan[i]] = vec[i];
                     }
                 }
@@ -113,7 +110,7 @@ void parallelBfs(const std::vector<std::vector<int> > &graph, std::vector<int> &
     }
     while (cnt != 0) {
         tbb::parallel_for(
-                tbb::blocked_range<size_t>(0, cnt, CHUNK_SIZE),
+                tbb::blocked_range<size_t>(0, cnt, PFOR_CHUNK_SIZE),
                 [&](const tbb::blocked_range <size_t> &range) {
                     for (size_t i = range.begin(); i < range.end(); ++i) {
                         deg_[i] = v_sz[frontier[i]];
@@ -121,14 +118,14 @@ void parallelBfs(const std::vector<std::vector<int> > &graph, std::vector<int> &
                 });
         auto scan_sm = pscan(deg_, scan_deg_, cnt);
         tbb::parallel_for(
-                tbb::blocked_range<size_t>(0, cnt, CHUNK_SIZE),
+                tbb::blocked_range<size_t>(0, cnt, PFOR_CHUNK_SIZE),
                 [&](const tbb::blocked_range <size_t> &out_range) {
                     for (size_t i = out_range.begin(); i < out_range.end(); ++i) {
                         auto v = frontier[i];
                         for (size_t j = 0; j < graph[v].size(); ++j) {
                             auto u = graph[v][j];
-                            if (visited[u] || !visited[u].compare_exchange_strong(expected, true)) {
-                                new_frontier[scan_deg[i] + j] = -1;
+                            if (visited[u] !visited[u].compare_exchange_strong(expected, true)) {
+                                new_frontier[scan_deg_[i] + j] = -1;
                             } else {
                                 new_frontier[scan_deg_[i] + j] = u;
                                 dist[u] = dist[v] + 1;

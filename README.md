@@ -1,4 +1,4 @@
-# Parallel QuickSort Benchmark
+# Parallel BFS Benchmark
 
 start with command: cmake -B build && cmake --build build && ./build/secondTask
 
@@ -10,33 +10,33 @@ start with command: cmake -B build && cmake --build build && ./build/secondTask
 
 ### Speed Test
 
-#### Sequential QuickSort Times
+#### Sequential BFS Times
 
 | Run | Time (seconds) |
 |-----|----------------|
-| 1   | 47.9354        |
-| 2   | 50.7802        |
-| 3   | 51.2079        |
-| 4   | 47.8929        |
-| 5   | 47.8548        |
+| 1   | 26.2826        |
+| 2   | 26.191         |
+| 3   | 26.1532        |
+| 4   | 26.8345        |
+| 5   | 26.7982        |
 
-**Mean Time: 49.1343 seconds**
+**Mean Time: 26.4519 seconds**
 
-#### Parallel QuickSort Times
+#### Parallel BFS Times
 
 | Run | Time (seconds) |
 |-----|----------------|
-| 1   | 51.375         |
-| 2   | 25.0165        |
-| 3   | 29.6623        |
-| 4   | 16.2659        |
-| 5   | 16.4615        |
+| 1   | 12.7437        |
+| 2   | 11.3893        |
+| 3   | 11.2523        |
+| 4   | 11.1613        |
+| 5   | 11.359         |
 
-**Mean Time: 27.75624 seconds**
+**Mean Time: 11.5811 seconds**
 
 ### Performance Ratio
 
-**Ratio: 1.77**
+**Ratio: 2.28406**
 
 ### Conclusion
 
