@@ -4,15 +4,17 @@
 #include "bfs.h"
 #include "graph.h"
 
-constexpr int SIZE = 400;
+constexpr int SIZE = 300;
 constexpr int TEST_SIZE = 5;
 
-double oneTest(const std::vector<std::vector<int>> &graph, void(*func)(const std::vector<std::vector<int>> &, int), const std::string &nm) {
+double oneTest(const std::vector<std::vector<int>> &graph, void(*func)(const std::vector<std::vector<int>> &, std::vector<int> &, const int), const std::string &nm) {
     std::cout << nm << " bfs times: " << std::endl;
+    std::vector<int> dist(graph.size());
     double sum = 0;
     for (int i = 0; i < TEST_SIZE; ++i) {
+        dist.assign(graph.size(), 0);
         auto start = std::chrono::high_resolution_clock::now();
-        func(graph, 0);
+        func(graph, dist, 0);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = (end - start);
         std::cout << i + 1 << " " << elapsed.count() << " seconds" << std::endl;
@@ -24,25 +26,18 @@ double oneTest(const std::vector<std::vector<int>> &graph, void(*func)(const std
 }
 
 
-// void correctnessTest() {
-//     int corSize = 1e6;
-//     std::vector<int> arr(corSize);
-//     std::vector<int> arrCopy(corSize);
-//     std::vector<int> arrCopyCopy(corSize);
-//     for (int i = 0; i < corSize; ++i) {
-//         arr[i] = mt();
-//         arrCopy[i] = arr[i];
-//         arrCopyCopy[i] = arr[i];
-//     }
-//     std::sort(arr.begin(), arr.end());
-//     sequentiallQuickSort(arrCopy, 0, corSize);
-//     parallelQuickSort(arrCopyCopy, 0, corSize);
-//     for (int i = 0; i < corSize; ++i) {
-//         assert(arr[i] = arrCopy[i]);
-//         assert(arr[i] = arrCopyCopy[i]);
-//     }
-//     std::cout << "Correctness test PASSED" << std::endl;
-// }
+ void correctnessTest() {
+     int corSize = 1e5;
+     auto graph = generate_graph(corSize);
+     std::vector<int> seq_dist(graph.size(), 0);
+     std::vector<int> par_dist(graph.size(), 0);
+     sequentialBfs(graph, seq_dist, 0);
+     parallelBfs(graph, par_dist, 0);
+     for (int i = 0; i < corSize; ++i) {
+         assert(seq_dist[i] = par_dist[i]);
+     }
+     std::cout << "Correctness test PASSED" << std::endl;
+ }
 
 void speedTest() {
     const auto graph = generate_graph(SIZE);
@@ -58,7 +53,7 @@ void speedTest() {
 }
 
 int main() {
-    // correctnessTest();
+    correctnessTest();
     speedTest();
     return 0;
 }
