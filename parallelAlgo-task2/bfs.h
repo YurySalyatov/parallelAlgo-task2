@@ -1,6 +1,3 @@
-Юрий Салятов,
-[23.12.2024 17:34]
-
 #include <vector>
 #include <atomic>
 #include <tbb/tbb.h>
@@ -9,7 +6,6 @@
 
 constexpr int PFOR_CHUNK_SIZE = 5 * 1e3;
 constexpr int PSCAN_CHUNK_SIZE = 1e3;
-constexpr int MAX_SIZE = 1e9;
 
 void sequentialBfs(const std::vector<std::vector<int> > &graph, std::vector<int> &dist, const int start = 0) {
     std::queue<int> front;

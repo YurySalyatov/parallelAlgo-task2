@@ -14,29 +14,29 @@ start with command: cmake -B build && cmake --build build && ./build/secondTask
 
 | Run | Time (seconds) |
 |-----|----------------|
-| 1   | 26.2826        |
-| 2   | 26.191         |
-| 3   | 26.1532        |
-| 4   | 26.8345        |
-| 5   | 26.7982        |
+| 1   | 19.8038        |
+| 2   | 21.9025        |
+| 3   | 25.2737        |
+| 4   | 25.2046        |
+| 5   | 23.3971        |
 
-**Mean Time: 26.4519 seconds**
+**Mean Time: 23.1163 seconds**
 
 #### Parallel BFS Times
 
 | Run | Time (seconds) |
 |-----|----------------|
-| 1   | 12.7437        |
-| 2   | 11.3893        |
-| 3   | 11.2523        |
-| 4   | 11.1613        |
-| 5   | 11.359         |
+| 1   | 9.63838        |
+| 2   | 9.15143        |
+| 3   | 9.19777        |
+| 4   | 9.1316         |
+| 5   | 9.20809        |
 
-**Mean Time: 11.5811 seconds**
+**Mean Time: 9.26545 seconds**
 
 ### Performance Ratio
 
-**Ratio: 2.28406**
+**Ratio: 2.4949**
 
 ### Conclusion
 
